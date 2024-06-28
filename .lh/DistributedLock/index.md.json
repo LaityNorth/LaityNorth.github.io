@@ -1,0 +1,162 @@
+{
+    "sourceFile": "DistributedLock/index.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 36,
+            "patches": [
+                {
+                    "date": 1719506066677,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1719506141742,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n ---\r\n-title: VitePress\r\n+title: VitePress # 修改网页tab上的文字\r\n ---\r\n \r\n # 分布式锁\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506160731,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n+titleTemplate: Vite & Vue powered static site generator\r\n ---\r\n \r\n # 分布式锁\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506171993,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n-titleTemplate: Vite & Vue powered static site generator\r\n+\r\n ---\r\n \r\n # 分布式锁\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506211541,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n-\r\n+titleTemplate: Vite & Vue powered static site generator # 鼠标悬停到网页tab上时，显示的文字\r\n ---\r\n \r\n # 分布式锁\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506222367,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n-titleTemplate: Vite & Vue powered static site generator # 鼠标悬停到网页tab上时，显示的文字\r\n+titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n ---\r\n \r\n # 分布式锁\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506236846,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n+description: VitePress\r\n ---\r\n \r\n # 分布式锁\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506275526,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,14 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n-description: VitePress\r\n+description: VitePress11111111\r\n+head:\r\n+  - - meta\r\n+    - name: description\r\n+      content: hello\r\n+  - - meta\r\n+    - name: keywords\r\n+      content: super duper SEO\r\n ---\r\n \r\n # 分布式锁\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506327736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n+layout: doc\r\n head:\r\n   - - meta\r\n     - name: description\r\n       content: hello\r\n"
+                },
+                {
+                    "date": 1719506344231,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,5 +11,20 @@\n     - name: keywords\r\n       content: super duper SEO\r\n ---\r\n \r\n-# 分布式锁\n\\ No newline at end of file\n+# 分布式锁\r\n+\r\n+\r\n+## 01、概述\r\n+\r\n+集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n+\r\n+在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n+\r\n+事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n+\r\n+然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n+\r\n+本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n+\r\n+## 02、分布式锁的概述\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506360445,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,5 +26,7 @@\n 然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n \r\n 本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n \r\n-## 02、分布式锁的概述\n\\ No newline at end of file\n+## 02、分布式锁的概述\r\n+\r\n+### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506371452,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n-layout: doc\r\n+layout: home\r\n head:\r\n   - - meta\r\n     - name: description\r\n       content: hello\r\n@@ -28,5 +28,6 @@\n 本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n \r\n ## 02、分布式锁的概述\r\n \r\n+\r\n ### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506376504,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n-layout: home\r\n+layout: doc\r\n head:\r\n   - - meta\r\n     - name: description\r\n       content: hello\r\n"
+                },
+                {
+                    "date": 1719506386916,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,33 @@\n+---\r\n+title: VitePress # 修改网页tab上的文字\r\n+titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n+description: VitePress11111111\r\n+layout: doc\r\n+head:\r\n+  - - meta\r\n+    - name: description\r\n+      content: hello\r\n+  - - meta\r\n+    - name: keywords\r\n+      content: super duper SEO\r\n+---\r\n+\r\n+# 分布式锁\r\n+\r\n+\r\n+## 01、概述\r\n+\r\n+集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n+\r\n+在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n+\r\n+事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n+\r\n+然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n+\r\n+本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n+\r\n+## 02、分布式锁的概述\r\n+\r\n+\r\n+### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506418221,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,30 @@\n+---\r\n+title: VitePress # 修改网页tab上的文字\r\n+titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n+description: VitePress11111111\r\n+layout: doc\r\n+\r\n+sidebar: [\r\n+    {}\r\n+]\r\n+---\r\n+\r\n+# 分布式锁\r\n+\r\n+\r\n+## 01、概述\r\n+\r\n+集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n+\r\n+在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n+\r\n+事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n+\r\n+然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n+\r\n+本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n+\r\n+## 02、分布式锁的概述\r\n+\r\n+\r\n+### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506455516,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,16 @@\n description: VitePress11111111\r\n layout: doc\r\n \r\n sidebar: [\r\n-    {}\r\n+    {\r\n+        text: 'Guide',\r\n+        items: [\r\n+          { text: 'Introduction', link: '/introduction' },\r\n+          { text: 'Getting Started', link: '/getting-started' },\r\n+          ...\r\n+        ]\r\n+      }\r\n ]\r\n ---\r\n \r\n # 分布式锁\r\n@@ -26,71 +33,5 @@\n \r\n ## 02、分布式锁的概述\r\n \r\n \r\n-### 02-01\n----\r\n-title: VitePress # 修改网页tab上的文字\r\n-titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n-description: VitePress11111111\r\n-layout: doc\r\n-head:\r\n-  - - meta\r\n-    - name: description\r\n-      content: hello\r\n-  - - meta\r\n-    - name: keywords\r\n-      content: super duper SEO\r\n----\r\n-\r\n-# 分布式锁\r\n-\r\n-\r\n-## 01、概述\r\n-\r\n-集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n-\r\n-在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n-\r\n-事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n-\r\n-然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n-\r\n-本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n-\r\n-## 02、分布式锁的概述\r\n-\r\n-\r\n-### 02-01\n----\r\n-title: VitePress # 修改网页tab上的文字\r\n-titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n-description: VitePress11111111\r\n-layout: doc\r\n-head:\r\n-  - - meta\r\n-    - name: description\r\n-      content: hello\r\n-  - - meta\r\n-    - name: keywords\r\n-      content: super duper SEO\r\n----\r\n-\r\n-# 分布式锁\r\n-\r\n-\r\n-## 01、概述\r\n-\r\n-集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n-\r\n-在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n-\r\n-事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n-\r\n-然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n-\r\n-本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n-\r\n-## 02、分布式锁的概述\r\n-\r\n-\r\n ### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506474101,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n-layout: doc\r\n+layout: page\r\n \r\n sidebar: [\r\n     {\r\n         text: 'Guide',\r\n"
+                },
+                {
+                    "date": 1719506481748,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,9 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n-layout: page\r\n-\r\n+layout: doc\r\n sidebar: [\r\n     {\r\n         text: 'Guide',\r\n         items: [\r\n"
+                },
+                {
+                    "date": 1719506534523,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,18 +2,19 @@\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n layout: doc\r\n-sidebar: [\r\n-    {\r\n-        text: 'Guide',\r\n-        items: [\r\n-          { text: 'Introduction', link: '/introduction' },\r\n-          { text: 'Getting Started', link: '/getting-started' },\r\n-          ...\r\n-        ]\r\n-      }\r\n-]\r\n+# sidebar: [\r\n+#     {\r\n+#         text: 'Guide',\r\n+#         items: [\r\n+#           { text: 'Introduction', link: '/introduction' },\r\n+#           { text: 'Getting Started', link: '/getting-started' },\r\n+#           ...\r\n+#         ]\r\n+#       }\r\n+# ]\r\n+sidebar: true\r\n ---\r\n \r\n # 分布式锁\r\n \r\n"
+                },
+                {
+                    "date": 1719506548182,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,19 +2,19 @@\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n layout: doc\r\n-# sidebar: [\r\n-#     {\r\n-#         text: 'Guide',\r\n-#         items: [\r\n-#           { text: 'Introduction', link: '/introduction' },\r\n-#           { text: 'Getting Started', link: '/getting-started' },\r\n-#           ...\r\n-#         ]\r\n-#       }\r\n-# ]\r\n-sidebar: true\r\n+sidebar: [\r\n+    {\r\n+        text: 'Guide',\r\n+        items: [\r\n+          { text: 'Introduction', link: '/introduction' },\r\n+          { text: 'Getting Started', link: '/getting-started' },\r\n+          ...\r\n+        ]\r\n+      }\r\n+]\r\n+\r\n ---\r\n \r\n # 分布式锁\r\n \r\n"
+                },
+                {
+                    "date": 1719506560111,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n-layout: doc\r\n+layout: home\r\n sidebar: [\r\n     {\r\n         text: 'Guide',\r\n         items: [\r\n"
+                },
+                {
+                    "date": 1719506568005,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n-layout: home\r\n+layout: page\r\n sidebar: [\r\n     {\r\n         text: 'Guide',\r\n         items: [\r\n"
+                },
+                {
+                    "date": 1719506592959,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n-layout: page\r\n+layout: home\r\n sidebar: [\r\n     {\r\n         text: 'Guide',\r\n         items: [\r\n"
+                },
+                {
+                    "date": 1719506598260,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,37 @@\n+---\r\n+title: VitePress # 修改网页tab上的文字\r\n+titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n+description: VitePress11111111\r\n+layout: doc\r\n+sidebar: [\r\n+    {\r\n+        text: 'Guide',\r\n+        items: [\r\n+          { text: 'Introduction', link: '/introduction' },\r\n+          { text: 'Getting Started', link: '/getting-started' },\r\n+          ...\r\n+        ]\r\n+      }\r\n+]\r\n+\r\n+---\r\n+\r\n+# 分布式锁\r\n+\r\n+\r\n+## 01、概述\r\n+\r\n+集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n+\r\n+在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n+\r\n+事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n+\r\n+然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n+\r\n+本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n+\r\n+## 02、分布式锁的概述\r\n+\r\n+\r\n+### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506603634,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,42 +33,5 @@\n \r\n ## 02、分布式锁的概述\r\n \r\n \r\n-### 02-01\n----\r\n-title: VitePress # 修改网页tab上的文字\r\n-titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n-description: VitePress11111111\r\n-layout: home\r\n-sidebar: [\r\n-    {\r\n-        text: 'Guide',\r\n-        items: [\r\n-          { text: 'Introduction', link: '/introduction' },\r\n-          { text: 'Getting Started', link: '/getting-started' },\r\n-          ...\r\n-        ]\r\n-      }\r\n-]\r\n-\r\n----\r\n-\r\n-# 分布式锁\r\n-\r\n-\r\n-## 01、概述\r\n-\r\n-集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n-\r\n-在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n-\r\n-事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n-\r\n-然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n-\r\n-本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n-\r\n-## 02、分布式锁的概述\r\n-\r\n-\r\n ### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506615896,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,24 +14,4 @@\n       }\r\n ]\r\n \r\n ---\r\n-\r\n-# 分布式锁\r\n-\r\n-\r\n-## 01、概述\r\n-\r\n-集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n-\r\n-在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n-\r\n-事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n-\r\n-然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n-\r\n-本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n-\r\n-## 02、分布式锁的概述\r\n-\r\n-\r\n-### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506655789,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,4 +14,24 @@\n       }\r\n ]\r\n \r\n ---\r\n+\r\n+# 分布式锁\r\n+\r\n+\r\n+## 01、概述\r\n+\r\n+集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n+\r\n+在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n+\r\n+事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n+\r\n+然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n+\r\n+本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n+\r\n+## 02、分布式锁的概述\r\n+\r\n+\r\n+### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506678230,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,38 @@\n+---\r\n+title: VitePress # 修改网页tab上的文字\r\n+titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n+description: VitePress11111111\r\n+layout: doc\r\n+aside: true\r\n+sidebar: [\r\n+    {\r\n+        text: 'Guide',\r\n+        items: [\r\n+          { text: 'Introduction', link: '/introduction' },\r\n+          { text: 'Getting Started', link: '/getting-started' },\r\n+          ...\r\n+        ]\r\n+      }\r\n+]\r\n+\r\n+---\r\n+\r\n+# 分布式锁\r\n+\r\n+\r\n+## 01、概述\r\n+\r\n+集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n+\r\n+在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n+\r\n+事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n+\r\n+然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n+\r\n+本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n+\r\n+## 02、分布式锁的概述\r\n+\r\n+\r\n+### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506686672,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n layout: doc\r\n-aside: true\r\n+aside: false\r\n sidebar: [\r\n     {\r\n         text: 'Guide',\r\n         items: [\r\n@@ -34,42 +34,5 @@\n \r\n ## 02、分布式锁的概述\r\n \r\n \r\n-### 02-01\n----\r\n-title: VitePress # 修改网页tab上的文字\r\n-titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n-description: VitePress11111111\r\n-layout: doc\r\n-sidebar: [\r\n-    {\r\n-        text: 'Guide',\r\n-        items: [\r\n-          { text: 'Introduction', link: '/introduction' },\r\n-          { text: 'Getting Started', link: '/getting-started' },\r\n-          ...\r\n-        ]\r\n-      }\r\n-]\r\n-\r\n----\r\n-\r\n-# 分布式锁\r\n-\r\n-\r\n-## 01、概述\r\n-\r\n-集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n-\r\n-在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n-\r\n-事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n-\r\n-然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n-\r\n-本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n-\r\n-## 02、分布式锁的概述\r\n-\r\n-\r\n ### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506693548,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n layout: doc\r\n-aside: false\r\n+aside: true\r\n sidebar: [\r\n     {\r\n         text: 'Guide',\r\n         items: [\r\n"
+                },
+                {
+                    "date": 1719506713196,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,38 @@\n+---\r\n+title: VitePress # 修改网页tab上的文字\r\n+titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n+description: VitePress11111111\r\n+layout: doc\r\n+aside: left \r\n+sidebar: [\r\n+    {\r\n+        text: 'Guide',\r\n+        items: [\r\n+          { text: 'Introduction', link: '/introduction' },\r\n+          { text: 'Getting Started', link: '/getting-started' },\r\n+          ...\r\n+        ]\r\n+      }\r\n+]\r\n+\r\n+---\r\n+\r\n+# 分布式锁\r\n+\r\n+\r\n+## 01、概述\r\n+\r\n+集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n+\r\n+在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n+\r\n+事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n+\r\n+然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n+\r\n+本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n+\r\n+## 02、分布式锁的概述\r\n+\r\n+\r\n+### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719506723775,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,46 +2,8 @@\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n description: VitePress11111111\r\n layout: doc\r\n-aside: left \r\n-sidebar: [\r\n-    {\r\n-        text: 'Guide',\r\n-        items: [\r\n-          { text: 'Introduction', link: '/introduction' },\r\n-          { text: 'Getting Started', link: '/getting-started' },\r\n-          ...\r\n-        ]\r\n-      }\r\n-]\r\n-\r\n----\r\n-\r\n-# 分布式锁\r\n-\r\n-\r\n-## 01、概述\r\n-\r\n-集群下个定义：有多个物理节点组合而成，共同协作完成一件事。(具备：高并发和高可用和高可扩)\r\n-\r\n-在互联网，移动互联网的时代，企业应用系统大多采用集群，分布式的方式进行部署，将“业务高度集中”的传统企业级应用按照业务拆分成多个子系统，并进行独立部署，而为了应对某些业务场景下产生的高并发请求，通常一个子系统会部署多分实例，并采用某个均衡机制“分摊”处理前端用户的请求，此种方式俗称：“集群”。\r\n-\r\n-事实证明，此种分布式，集群部署的方式确实功能给企业级的系统应用带来性能和效率的提升，从而给企业业务规模带来课扩展的可能性。\r\n-\r\n-然而，任何事务都并非十全十美，正如服务集群，分布式系统架构一样，虽然可以给企业应用系统带来性能，质量和效率上的提升，但也由此带来了一些棘手的问题，其中比如典型的问题就是：==高并发场景下多个线程并发访问，造成共享资源泄露的问题。会造成数据的不一致现象。==针对这个问题，业界普遍的采取的方式是用：“分布式锁”，加以解决。\r\n-\r\n-本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n-\r\n-## 02、分布式锁的概述\r\n-\r\n-\r\n-### 02-01\n----\r\n-title: VitePress # 修改网页tab上的文字\r\n-titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n-description: VitePress11111111\r\n-layout: doc\r\n aside: true\r\n sidebar: [\r\n     {\r\n         text: 'Guide',\r\n"
+                },
+                {
+                    "date": 1719506766261,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,9 @@\n           ...\r\n         ]\r\n       }\r\n ]\r\n+lastUpdated: true\r\n \r\n ---\r\n \r\n # 分布式锁\r\n"
+                },
+                {
+                    "date": 1719506799055,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,7 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n-description: VitePress11111111\r\n layout: doc\r\n aside: true\r\n sidebar: [\r\n     {\r\n"
+                },
+                {
+                    "date": 1719506804820,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,6 +33,5 @@\n 本课程：主要针对分布式锁，出现的背景，以及使用场景进行说明和实战。\r\n \r\n ## 02、分布式锁的概述\r\n \r\n-\r\n ### 02-01\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1719507132458,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,13 +4,11 @@\n layout: doc\r\n aside: true\r\n sidebar: [\r\n     {\r\n-        text: 'Guide',\r\n+        text: 'ccccc',\r\n         items: [\r\n           { text: 'Introduction', link: '/introduction' },\r\n-          { text: 'Getting Started', link: '/getting-started' },\r\n-          ...\r\n         ]\r\n       }\r\n ]\r\n lastUpdated: true\r\n"
+                },
+                {
+                    "date": 1719507148056,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,8 @@\n ---\r\n title: VitePress # 修改网页tab上的文字\r\n titleTemplate: 鼠标悬停到网页tab上时，显示的文字 # 鼠标悬停到网页tab上时，显示的文字\r\n layout: doc\r\n-aside: true\r\n sidebar: [\r\n     {\r\n         text: 'ccccc',\r\n         items: [\r\n"
+                }
+            ],
+            "date": 1719506066677,
+            "name": "Commit-0",
+            "content": "---\r\ntitle: VitePress\r\n---\r\n\r\n# 分布式锁"
+        }
+    ]
+}

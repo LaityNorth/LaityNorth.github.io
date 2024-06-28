@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Queue/queue.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1719504272151,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1719504272151,
+            "name": "Commit-0",
+            "content": "# 消息队列"
+        }
+    ]
+}
