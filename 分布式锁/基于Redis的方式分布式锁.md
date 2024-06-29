@@ -2,99 +2,71 @@
 title: "Redis分布式锁案例"
 ---
 
-# 基于Redis的方式分布式锁 - 用户注册
+# 基于Redis的方式分布式锁案例
+
+![image-20220411220304434](./image/Snipaste_2024-06-29_13-20-11.png)
 
 
-![image-20220411220304434](https://gitee.com/latiynorth/noteImg/raw/master/img/202303071604744.png)
+## 概述
+
+分布式锁处理可以采用基于数据库级别的：“乐观锁” 和“悲观锁”实现之外，还可以采用业界比较流行的的方式比如：<Badge type="tip" text="Redis的原子操作实现分布式锁，以及Zookeeper的临时节点和Watcher机制实现分布式锁。"/>
+
+* Redisson (企业级)
+* curator 分布式锁(企业级)
+
+参考官方文档 [官方文档](!https://redis.io/docs/modules/)
+
+## Redis的典型应用场景
+
+>[!NOTE]
+>* 热点数据的存储和展示，即大部分频繁访问的数据
+>* 最近访问的数据存储和展示，即用户访问的最新足迹
+>* 消息已读，未读，收藏，浏览数，足迹
+>* 好友关注，粉丝，互关，共同好友
+>* 限流，黑白名单，抢红包
+>* 并发访问控制，分布式锁机制
+>* 排行榜：用来代替传统基于数据库的order by
+>* 队列机制，基于主题式的发布和订阅，原生的
+>* 地理定位GEO
+>* 布隆过滤等
 
 
+## Redis实现分布式锁  — 幂等性问题
 
-
-
-## 01、概述
-
-分布式锁处理可以采用基于数据库级别的：“乐观锁” 和“悲观锁”实现之外，还可以采用业界比较流行的的方式比如：==Redis的原子操作实现分布式锁，以及Zookeeper的临时节点和Watcher机制实现分布式锁==。
-
-- Redisson (企业级)
-- curator –分布式锁(企业级)
-
-官方文档：https://redis.io/docs/modules/
-
-
-
-
-
-## 02、Redis的典型应用场景
-
-
-
-- 热点数据的存储和展示，即大部分频繁访问的数据
-- 最近访问的数据存储和展示，即用户访问的最新足迹
-- 消息已读，未读，收藏，浏览数，足迹
-- 好友关注，粉丝，互关，共同好友
-- 限流，黑白名单，抢红包
-- 并发访问控制，分布式锁机制
-- 排行榜：用来代替传统基于数据库的order by
-- 队列机制，基于主题式的发布和订阅，原生的
-- 地理定位GEO
-- 布隆过滤等
-
-
-
-
-
-## 03、Redis实现分布式锁  — 幂等性问题
-
-
-
-==幂等性：就是用户对于同一操作发起的一次请求或者多次请求的结果是一致的，不会因为多次点击而产生了副作用==
+<Badge type="tip" text="幂等性：就是用户对于同一操作发起的一次请求或者多次请求的结果是一致的，不会因为多次点击而产生了副作用"/>
 
 在Redis中，可以实现分布式锁的原子操作主要是Set和Expire操作。从redis的2.6x开始，提供了set命令如下：
 
-```properties
+```sh
 set key value [EX seconds] [PX milliseconds] [NX|XX]
 ```
 
 在改命令中，对应key和value，给为应该很熟悉了。
 
-- EX 是指key的存活时间秒单位
-- PX 是指key的存活时间毫秒单位
-- NX是指当Key不存在的时候才会设置key值
-- XX是指当Key存在时才会设置key的值
+>[!TIP]
+>- EX 是指key的存活时间秒单位
+>- PX 是指key的存活时间毫秒单位
+>- NX是指当Key不存在的时候才会设置key值
+>- XX是指当Key存在时才会设置key的值
 
-从该操作命令不难看出，==NX机制其实就是用于实现分布式锁的核心==，即所谓的SETNX操作，但是在使用setnx实现分布式锁需要注意以下几点：`java setIfAbsent === redis-cli setnx`
-
-> 获取锁1 ,获取不到就是0
+从该操作命令不难看出，<Badge type="danger" text="NX机制其实就是用于实现分布式锁的核心"/>，即所谓的SETNX操作，但是在使用setnx实现分布式锁需要注意以下几点：`java setIfAbsent === redis-cli setnx`
+获取锁1 ,获取不到就是0
 
 - 使用setnx命令获取：“锁”时，如果操作结果返回0.（表示key已经对应的锁）已经不存在，即当前已被其他的线程获取了锁，则获取：“锁”失败，反之获取成功
 - 为了防止并发线程在获取锁之后，程序出现异常的情况，从而导致其他线程在调用setnx命令时总是返回1而进入死锁状态，需要为key设置一个“合理”的过期时间
 - 当成功获取：“锁”并执行完成相应的操作之后，需要释放该“锁”，可以通过执行del命令讲“锁”删除，而在删除的时候还需要保证所删除的锁，是当前线程所获取的，从而避免出现误删除的情况。
 
 
+## 图解
+
+![image-20220411192239246](./image/Snipaste_2024-06-29_13-33-38.png)
 
 
+能够实现分布式锁，源自于Redis提供了所有操作的命令均是原子性的，所谓的：“原子性”指的是一个操作要么全部完成，要么全部不完成，每个操作和命令如同一个整体，不可能进行分割。
 
-## 04、图解
+## 实现用户注册，使用redis分布式锁解决重复注册问题
 
-
-
-![image-20220411192239246](https://gitee.com/latiynorth/noteImg/raw/master/img/202303071606133.png)
-
-
-
-能够实现分布式锁，源自于Redis提供了所有操作的命令均是原子性的，所谓的：==“原子性”指的是一个操作要么全部完成，要么全部不完成，每个操作和命令如同一个整体，不可能进行分割==。
-
-
-
-
-
-## 05、实现用户注册，使用redis分布式锁解决重复注册问题
-
-
-
-### 1、依赖
-
-
+### 依赖
 
 ```xml
 <!-- redis -->
@@ -115,9 +87,7 @@ set key value [EX seconds] [PX milliseconds] [NX|XX]
 </dependency>
 ```
 
-
-
-### 2、配置
+### 配置
 
 ```yaml
 #redis
@@ -133,9 +103,7 @@ spring.redis.jedis.pool.min-idle=3
 
 ```
 
-
-
-### 3、sql脚本
+### sql脚本
 
 ```sql
 -- ----------------------------
@@ -177,23 +145,9 @@ INSERT INTO `user_reg` VALUES ('77', 'userB', '123456', '2019-05-03 15:37:37');
 
 ```
 
-
-
-### 4、配置类
+### 配置类
 
 ```java
-package com.debug.middleware.server.config;/**
- * Created by Administrator on 2019/3/13.
- */
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-
 /**
  * 通用化配置
  * @Author:debug (SteadyJack)
@@ -238,76 +192,20 @@ public class RedisConfiguration {
 }
 ```
 
-
-
-### 4、bean，mapper
-
-```
-具体看代码
-```
-
-
-
-### 5、实现分布式锁
+### 实现分布式锁
 
 ```java
-package com.pug.lock.service.redis;
-
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.pug.lock.model.UserReg;
-import com.pug.vo.UserRegVo;
-
-/**
- * @author 飞哥
- * @Title: 学相伴出品
- * @Description: 飞哥B站地址：https://space.bilibili.com/490711252
- * 记得关注和三连哦！
- * @Description: 我们有一个学习网站：https://www.kuangstudy.com
- * @date 2022/4/11$ 22:27$
- */
 public interface IUserRegService extends IService<UserReg> {
     // 无锁
     void regUserNoLock(UserRegVo userRegVo);
 
     // redis的分布式锁
     void regUserRedisLock(UserRegVo userRegVo);
-
-    //void regUserZkLock(UserRegVo userRegVo);
-
-    //void regUserRedissionLock(UserRegVo userRegVo);
 }
 
 ```
 
 ```java
-package com.pug.lock.service.redis;
-
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pug.lock.mapper.UserRegMapper;
-import com.pug.lock.model.UserReg;
-import com.pug.vo.UserRegVo;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
-/**
- * @author 飞哥
- * @Title: 学相伴出品
- * @Description: 飞哥B站地址：https://space.bilibili.com/490711252
- * 记得关注和三连哦！
- * @Description: 我们有一个学习网站：https://www.kuangstudy.com
- * @date 2022/4/11$ 22:27$
- */
 @Service
 @Slf4j
 public class UserRegServiceImpl extends ServiceImpl<UserRegMapper, UserReg> implements IUserRegService {
@@ -391,36 +289,9 @@ public class UserRegServiceImpl extends ServiceImpl<UserRegMapper, UserReg> impl
 
 ```
 
-
-
-### 6、controller
+### controller
 
 ```java
-package com.pug.lock.controller.redis;
-
-import com.pug.lock.common.R;
-import com.pug.lock.common.StatusCode;
-import com.pug.lock.service.redis.IUserRegService;
-import com.pug.vo.UserRegVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
-
-/**
- * @author 飞哥
- * @Title: 学相伴出品
- * @Description: 飞哥B站地址：https://space.bilibili.com/490711252
- * 记得关注和三连哦！
- * @Description: 我们有一个学习网站：https://www.kuangstudy.com
- * @date 2022/4/11$ 22:28$
- */
 @RestController
 @Slf4j
 @Api(tags = "Redis分布式锁--用户注册")
@@ -466,12 +337,9 @@ public class UserRegController {
 
 ```
 
+## 小结
 
-
-## 06、小结
-
-- Redis的分布式锁主要采用setnx+ expire命令来完成
-- ==Redis的分布式锁得以实现，主要是得益于Redis的单线程操作机制==，即在底层基础架构中，同一时刻，同一个部署节点只允许一个线程执行某种操作，这种操作也称之为原子性。
-- 上面的用户注册重复提交的问题，使用了分布式锁的一次性锁，即同一时刻并发的线程锁携带的相同数据只能允许一个线程通过，其他的线程将获取锁失败，而从结束自身的业务流程。
-
-
+>[!TIP]
+>- Redis的分布式锁主要采用setnx+ expire命令来完成
+>- Redis的分布式锁得以实现，主要是得益于Redis的单线程操作机制，即在底层基础架构中，同一时刻，同一个部署节点只允许一个线程执行某种操作，这种操作也称之为原子性。
+>- 上面的用户注册重复提交的问题，使用了分布式锁的一次性锁，即同一时刻并发的线程锁携带的相同数据只能允许一个线程通过，其他的线程将获取锁失败，而从结束自身的业务流程。

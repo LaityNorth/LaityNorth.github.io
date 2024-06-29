@@ -1,0 +1,35 @@
+
+/* .VPContent {
+    padding: 0;
+    background-color: blueviolet;
+} */
+
+/* 滚动槽 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: rgba(0,0,0,0.06);
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.08);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: rgba(0,0,0,0.12);
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+}
+
+
+div,
+code {
+    box-sizing: border-box;
+}
+
+
+@media (min-width: 960px) {
+    .VPNav[data-v-9397ee4e] {
+        position: sticky;
+    }
+}

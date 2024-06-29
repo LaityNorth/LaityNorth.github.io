@@ -1,7 +1,7 @@
 ---
 title: "Zookeeper分布式锁案例"
-
 ---
+
 # 基于Zookeeper的方式实现分布式锁 - 商品抢购案例
 
 案例场景：
@@ -10,15 +10,14 @@ title: "Zookeeper分布式锁案例"
 - 商品库存表
 - 抢购商品下单
 
-## 01、Zookeeper概述
+## Zookeeper概述
 
 Zookeeper是一款开源的分布式服务协调中间件，是由雅虎团队研发而来，其设计的初衷是开发一个通用的，无单点问题的分布式协调框架，采用统一的协调管理方式更好地管理各个子系统，从而让开发者将更多的经理集中在业务逻辑处理上。最终整个分布式系统看上去就想是一个大型的动物园，而这个中间件正好用来协调分布式环境中的各个子系统，zookeeper因此而得名
 
 
 
-## 02、Zookeeper可以用来干嘛？
-
-官网：https://zookeeper.apache.org/ 
+## Zookeeper可以做什么
+官网：[官方文档](!https://zookeeper.apache.org/)
 
 - 统一配置管理：将每个子系统都需要配置的文件统一放到zookeeper中的znode节点中。
 - 统一命名服务：通过给存放在znode上的资源进行统一命名，各个子系统便可以通过名字获取到节点上响应的资源。
@@ -28,18 +27,17 @@ Zookeeper是一款开源的分布式服务协调中间件，是由雅虎团队�
 - 集群状态：通过动态地感知节点的增加，删除，从而保证集群下的相关节点数据主，副本数据的一致。
 
 
-
-## 03、Zookeeper分布式锁流程
+## Zookeeper分布式锁流程
 
 zookeeper实现分布式锁主要是通过创建与共享资源相关的：“顺序临时节点” 并采用其提供的Watcher监听机制，控制多线程对共享资源的并发访问，整体如下：
 
-![image-20220411193330233](https://gitee.com/latiynorth/noteImg/raw/master/img/202303071624878.png)
+![image-20220411193330233](./image/Snipaste_2024-06-29_13-49-43.png)
 
 
 
-## 04、SpringBoot整合Zookeeper
+## SpringBoot整合Zookeeper
 
-下载地址：https://archive.apache.org/dist/zookeeper/
+zookeeper下载地址：[下载地址](https://archive.apache.org/dist/zookeeper/)
 
 
 
@@ -82,51 +80,24 @@ zk.namespace=pug_middle_lock
 ### 3、配置初始化
 
 ```java
-package com.pug.lock.config; /**
- * Created by Administrator on 2019/3/13.
- */
-
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.retry.RetryNTimes;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-
 /**
  * 通用化配置
- *
- * @Date: 2019/3/13 8:38
- * @Link：微信-debug0868 QQ-1948831260
  **/
 @Configuration
 public class CuratorFrameworkConfiguration {
 
-    //读取环境变量的实例
-    //@Autowired
-    //private Environment env;
     @Value("${zk.host}")
     private String host;
     @Value("${zk.namespace}")
     private String namespace;
 
 
-    //自定义注入Bean-ZooKeeper高度封装过的客户端Curator实例
+    // 自定义注入Bean-ZooKeeper高度封装过的客户端Curator实例
     @Bean
     public CuratorFramework curatorFramework() {
         //创建CuratorFramework实例
         //（1）创建的方式是采用工厂模式进行创建；
         //（2）指定了客户端连接到ZooKeeper服务端的策略：这里是采用重试的机制(5次，每次间隔1s)
-//        CuratorFramework curatorFramework= CuratorFrameworkFactory.builder()
-//                .connectString(env.getProperty("zk.host")).namespace(env.getProperty("zk.namespace"))
-//                .retryPolicy(new RetryNTimes(5,1000)).build();
         CuratorFramework curatorFramework = CuratorFrameworkFactory.builder()
                 .connectString(host).namespace(namespace)
                 .retryPolicy(new RetryNTimes(5, 1000)).build();
@@ -141,34 +112,8 @@ public class CuratorFrameworkConfiguration {
 ### 4、用户注册实现分布式锁
 
 ```java
-package com.debug.middleware.server.service.lock;/**
- * Created by Administrator on 2019/4/20.
- */
-
-import com.debug.middleware.model.entity.UserReg;
-import com.debug.middleware.model.mapper.UserRegMapper;
-import com.debug.middleware.server.controller.lock.dto.UserRegDto;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.recipes.locks.InterProcessMutex;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
 /**
  * 处理用户注册信息提交服务Service
- * @Author:debug (SteadyJack)
- * @Date: 2019/4/20 20:24
  **/
 @Service
 public class UserRegService {
@@ -232,14 +177,11 @@ public class UserRegService {
 
 }
 
-
 ```
 
+### 5、实现商品抢购扣减库存
 
-
-### 05、实现商品抢购扣减库存
-
-![image-20220411200009021](https://gitee.com/latiynorth/noteImg/raw/master/img/202303071625098.png)
+![image-20220411200009021](./image/Snipaste_2024-06-29_13-52-50.png)
 
 ```sql
 -- ----------------------------
@@ -287,14 +229,7 @@ INSERT INTO `book_stock` VALUES ('1', 'BS20190421001', '4', '1');
 ```
 
 #### 1、bean
-
 ```java
-package com.debug.middleware.model.entity;
-
-import lombok.Data;
-import lombok.ToString;
-
-import java.util.Date;
 
 //商品抢购记录实体
 @Data
@@ -310,11 +245,6 @@ public class BookRob {
 ```
 
 ```java
-package com.debug.middleware.model.entity;
-
-import lombok.Data;
-import lombok.ToString;
-
 //商品库存实体
 @Data
 @ToString
@@ -326,17 +256,9 @@ public class BookStock {
 }
 ```
 
-
-
 #### 2、mapper
 
-
-
 ```java
-package com.debug.middleware.model.mapper;
-
-import com.debug.middleware.model.entity.BookRob;
-import org.apache.ibatis.annotations.Param;
 //商品抢购成功的记录实体Mapper操作接口
 public interface BookRobMapper {
     //插入抢购成功的记录信息
@@ -348,10 +270,6 @@ public interface BookRobMapper {
 ```
 
 ```java
-package com.debug.middleware.model.mapper;
-
-import com.debug.middleware.model.entity.BookStock;
-import org.apache.ibatis.annotations.Param;
 //商品库存实体操作接口Mapper
 public interface BookStockMapper {
     //根据商品编号查询
@@ -364,35 +282,11 @@ public interface BookStockMapper {
 ```
 
 
-
-
 #### 3、service
 
 ```java
-package com.debug.middleware.server.service.lock;/**
- * Created by Administrator on 2019/4/17.
- */
-
-import com.debug.middleware.model.entity.*;
-import com.debug.middleware.model.mapper.*;
-import com.debug.middleware.server.controller.lock.dto.BookRobDto;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.recipes.locks.InterProcessMutex;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 /**
  * 商品抢购服务
- * @Author:debug (SteadyJack)
- * @Date: 2019/4/21 23:36
  **/
 @Service
 public class BookRobService {
@@ -404,6 +298,13 @@ public class BookRobService {
     //定义商品抢购实体操作接口Mapper实例
     @Autowired
     private BookRobMapper bookRobMapper;
+
+    //定义ZooKeeper客户端CuratorFramework实例
+    @Autowired
+    private CuratorFramework client;
+    //ZooKeeper分布式锁的实现原理是由ZNode节点的创建与删除跟监听机制构成的
+    //而ZNoe节点将对应一个具体的路径-跟Unix文件夹路径类似-需要以 / 开头
+    private static final String pathPrefix="/middleware/zkLock/";
 
     /**
      * 处理商品抢购逻辑-不加分布式锁
@@ -441,16 +342,6 @@ public class BookRobService {
         }
     }
 
-
-
-
-
-    //定义ZooKeeper客户端CuratorFramework实例
-    @Autowired
-    private CuratorFramework client;
-    //ZooKeeper分布式锁的实现原理是由ZNode节点的创建与删除跟监听机制构成的
-    //而ZNoe节点将对应一个具体的路径-跟Unix文件夹路径类似-需要以 / 开头
-    private static final String pathPrefix="/middleware/zkLock/";
 
     /**
      * 处理商品抢购逻辑-加ZooKeeper分布式锁
@@ -506,32 +397,13 @@ public class BookRobService {
             mutex.release();
         }
     }
-    
 }
 
 ```
 
-
-
 #### 4、controller
 
 ```java
-package com.debug.middleware.server.controller.lock;/**
- * Created by Administrator on 2019/4/17.
- */
-
-import com.debug.middleware.api.enums.StatusCode;
-import com.debug.middleware.api.response.BaseResponse;
-import com.debug.middleware.server.controller.lock.dto.BookRobDto;
-import com.debug.middleware.server.service.lock.BookRobService;
-import org.assertj.core.util.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 /**
  * 商品抢购Controller
  * @Author:debug (SteadyJack)
@@ -569,12 +441,3 @@ public class BookRobController {
     }
 }
 ```
-
-
-
-
-
-
-
-
-

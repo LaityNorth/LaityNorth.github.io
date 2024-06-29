@@ -13,5 +13,5 @@ export const sidebarData = {
     "/分布式锁/": distributedLock,
     "/消息队列/": queue,
     "/踩坑记录/": recorder,
-    "/环境安装/": environment,
+    "/环境搭建/": environment,
 }

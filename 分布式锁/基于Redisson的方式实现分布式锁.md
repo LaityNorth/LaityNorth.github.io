@@ -2,9 +2,7 @@
 title: 'Redisson分布式锁案例'
 ---
 
-# 基于Redisson的方式实现分布式锁 
-
-
+# 基于Redisson的方式实现分布式锁案例
 
 ## 概述
 
@@ -56,18 +54,6 @@ redisson.host.config=redis://120.77.34.190:6379
 ```
 
 ```java
-package com.pug.lock.config; /**
- * Created by Administrator on 2019/4/27.
- */
-
-import org.redisson.Redisson;
-import org.redisson.api.RedissonClient;
-import org.redisson.config.Config;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-
 /**
  * Redisson相关开源组件自定义注入
  *
@@ -108,8 +94,7 @@ public class RedissonConfig {
 }
 ```
 
-### 使用redisson的功能–用户注册
-
+### 使用redisson实现–用户注册案例
 ```java
  @Autowired
     private RedissonClient redissonClient;
@@ -175,9 +160,11 @@ public class RedissonConfig {
 
 ## Redisson的分布式锁
 
-> 采用redisson实现分布式锁，底层还是使用redis，也是利用redis的原子操作和单线程执行的原理实现分布式锁，
+:::tip
+采用redisson实现分布式锁，底层还是使用redis，也是利用redis的原子操作和单线程执行的原理实现分布式锁，
+:::
 
-在前面的代码中我们很容易发现，自己定义的redis分布式锁，如果出现了redis节点宕机等情况，而该锁又正好处于被锁住的状态，那么这个锁很有可能或进入到死锁状态，为了避免这个状况的发生，redisson内部提供了一个监控锁的：“time dog” 看门狗，其作用是在redisson实例被关闭之前，不断地延长分布式锁的有效期，在默认情况下，看门狗检查锁的超时时间是30s，当然在实际业务场景中我们可以通过Config.lockWatchDogTimout进行设置。
+在前面的代码中我们很容易发现，自己定义的redis分布式锁，如果出现了redis节点宕机等情况，而该锁又正好处于被锁住的状态，那么这个锁很有可能或进入到死锁状态，为了避免这个状况的发生，redisson内部提供了一个监控锁的：<Badge type="danger" text="time dog"/> 看门狗，其作用是在redisson实例被关闭之前，不断地延长分布式锁的有效期，在默认情况下，看门狗检查锁的超时时间是30s，当然在实际业务场景中我们可以通过Config.lockWatchDogTimout进行设置。
 
 - redis 重入问题
 - redis 获取锁(setnx)和关闭原子性lua (redisson 获取 lua + 关闭lua)
@@ -188,11 +175,9 @@ public class RedissonConfig {
 
 Redisson提供的分布式锁这一功能组件有：“一次性” 与 可重入 两种实现方式，
 
-- 一次性顾名思义是：指的是当前线程如果可以获取到分布式锁，则成功取之，否则拿不到的线程全部永远失败。也就是：“咸鱼永远不翻身”、
+- 一次性顾名思义是：指的是当前线程如果可以获取到分布式锁，则成功取之，否则拿不到的线程全部永远失败。也就是：“咸鱼永远不翻身”
 
 - 可重入是指：指的是当前线程如果可以获取到分布式锁，则成功取之，拿不到的线程就会等待一定的时间，它们并不会立即失败，而是会等待一定时间，重新获取分布式锁，“咸鱼也有翻身之日”
-
-
 
 
 
@@ -202,7 +187,7 @@ Redisson提供的分布式锁这一功能组件有：“一次性” 与 可重�
 
 此种方式适合于那些在同一时刻，而且是在很长时间内仍然只允许一个线程访问共享资源的场景，比如：用户注册，重复提交，抢红包、提现等业务场景。在开源中间件Redisson中，主要通lock.lock()方法实现。
 
-```
+```java
 // 获取锁，一定要执行lock.unlock()才会释放
 // 假设A ,B C ,A 拿锁 B,C 不阻塞直接释放调用unlock
 lock.lock();
@@ -270,26 +255,21 @@ public void regUserRedissionLock(UserRegVo userRegVo) {
 ```
 
 
-
-
-
 ## Redisson分布式锁之可重入实战
 
 分布式锁的可重入是指：当高并发产生多线程时，如果当前线程不能获取分布式锁，它并不会立即抛弃，而是会等待一定时间，重新尝试去获取分布式锁，如果可以获取成功，则执行后续操作共享资源的步骤，**如果不能获取到锁而且重试的时间到达了上限，则意味着该线程将被抛弃。**
 
-```properties
-lock.tryLock(10,seconds) 表示当前线程在某一个时刻如果能获取到锁，则会在10秒之后自动释放，如果不能获取到锁，则会一直处于进入尝试的状态。
+```java
+lock.tryLock(10,seconds) // 表示当前线程在某一个时刻如果能获取到锁，则会在10秒之后自动释放，如果不能获取到锁，则会一直处于进入尝试的状态。
 
 // A线程 拿到锁 时间只有10s中，如果10s执行不完，会自动释放
 // B线程不会释放，阻塞在位置，但是它最多只能阻塞100s
-注册 1w lock 30s 1
-下单 1w lock 30s 0.01s 100s 几千单 key 
-lock.tryLock(100,10,seconds) ，表示这个上限是100s
-直到尝试的实际达到一个上限  尝试加锁，最多等待·100s  上锁以后10s会自动释放。
+// 注册 1w lock 30s 1
+// 下单 1w lock 30s 0.01s 100s 几千单 key
+lock.tryLock(100,10,seconds) // 表示这个上限是100s
+// 直到尝试的实际达到一个上限  尝试加锁，最多等待·100s  上锁以后10s会自动释放。
 
 ```
-
-
 
 典型的应用场景就是：商城的高并发抢购商品的业务场景。
 
@@ -301,79 +281,79 @@ lock.tryLock(100,10,seconds) ，表示这个上限是100s
 
 比如：
 
-```
-lock.tryLock(10,seconds) 表示当前线程在某一个时刻如果能获取到锁，则会在10秒之后自动释放，如果不能获取到锁，则会一直处于进入尝试的状态。直到尝试的实际达到一个上限，比如：
-lock.tryLock(100,10,seconds) ，表示这个上限是100s
-尝试枷锁，最多等待·100s  上锁以后10s会自动释放。
+```java
+// 表示当前线程在某一个时刻如果能获取到锁，则会在10秒之后自动释放，如果不能获取到锁，则会一直处于进入尝试的状态。直到尝试的实际达到一个上限
+lock.tryLock(10,seconds)
+// 表示这个上限是100s,尝试枷锁，最多等待·100s  上锁以后10s会自动释放。
+lock.tryLock(100,10,seconds)
 
 ```
-
 
 
 ```java
 //定义Redisson的客户端操作实例
-    @Autowired
-    private RedissonClient redissonClient;
+@Autowired
+private RedissonClient redissonClient;
 
-    /**
-     * 处理书籍抢购逻辑-加Redisson分布式锁
-     * @param dto
-     * @throws Exception
-     */
-    @Transactional(rollbackFor = Exception.class)
-    public void robWithRedisson(BookRobDto dto) throws Exception{
-        final String lockName="redissonTryLock-"+dto.getBookNo()+"-"+dto.getUserId();
-        RLock lock=redissonClient.getLock(lockName);
-        try {
-            Boolean result=lock.tryLock(100,10,TimeUnit.SECONDS);
-            if (result){
-                //TODO：真正的核心处理逻辑
+/**
+ * 处理书籍抢购逻辑-加Redisson分布式锁
+ * @param dto
+ * @throws Exception
+ */
+@Transactional(rollbackFor = Exception.class)
+public void robWithRedisson(BookRobDto dto) throws Exception{
+    final String lockName="redissonTryLock-"+dto.getBookNo()+"-"+dto.getUserId();
+    RLock lock=redissonClient.getLock(lockName);
+    try {
+        Boolean result=lock.tryLock(100,10,TimeUnit.SECONDS);
+        if (result){
+            //TODO：真正的核心处理逻辑
 
-                //根据书籍编号查询记录
-                BookStock stock=bookStockMapper.selectByBookNo(dto.getBookNo());
-                //统计每个用户每本书的抢购数量
-                int total=bookRobMapper.countByBookNoUserId(dto.getUserId(),dto.getBookNo());
+            //根据书籍编号查询记录
+            BookStock stock=bookStockMapper.selectByBookNo(dto.getBookNo());
+            //统计每个用户每本书的抢购数量
+            int total=bookRobMapper.countByBookNoUserId(dto.getUserId(),dto.getBookNo());
 
-                //商品记录存在、库存充足，而且用户还没抢购过本书，则代表当前用户可以抢购
-                if (stock!=null && stock.getStock()>0 && total<=0){
-                    //当前用户抢购到书籍，库存减一
-                    int res=bookStockMapper.updateStockWithLock(dto.getBookNo());
-                    //如果允许商品超卖-达成饥饿营销的目的，则可以调用下面的方法
-                    //int res=bookStockMapper.updateStock(dto.getBookNo());
+            //商品记录存在、库存充足，而且用户还没抢购过本书，则代表当前用户可以抢购
+            if (stock!=null && stock.getStock()>0 && total<=0){
+                //当前用户抢购到书籍，库存减一
+                int res=bookStockMapper.updateStockWithLock(dto.getBookNo());
+                //如果允许商品超卖-达成饥饿营销的目的，则可以调用下面的方法
+                //int res=bookStockMapper.updateStock(dto.getBookNo());
 
-                    //更新库存成功后，需要添加抢购记录
-                    if (res>0){
-                        //创建书籍抢购记录实体信息
-                        BookRob entity=new BookRob();
-                        //将提交的用户抢购请求实体信息中对应的字段取值
-                        //复制到新创建的书籍抢购记录实体的相应字段中
-                        entity.setBookNo(dto.getBookNo());
-                        entity.setUserId(dto.getUserId());
-                        //设置抢购时间
-                        entity.setRobTime(new Date());
-                        //插入用户注册信息
-                        bookRobMapper.insertSelective(entity);
+                //更新库存成功后，需要添加抢购记录
+                if (res>0){
+                    //创建书籍抢购记录实体信息
+                    BookRob entity=new BookRob();
+                    //将提交的用户抢购请求实体信息中对应的字段取值
+                    //复制到新创建的书籍抢购记录实体的相应字段中
+                    entity.setBookNo(dto.getBookNo());
+                    entity.setUserId(dto.getUserId());
+                    //设置抢购时间
+                    entity.setRobTime(new Date());
+                    //插入用户注册信息
+                    bookRobMapper.insertSelective(entity);
 
-                        log.info("---处理书籍抢购逻辑-加Redisson分布式锁---,当前线程成功抢到书籍：{} ",dto);
-                    }
-                }else {
-                    //如果不满足上述的任意一个if条件，则抛出异常
-                    throw new Exception("该书籍库存不足!");
+                    log.info("---处理书籍抢购逻辑-加Redisson分布式锁---,当前线程成功抢到书籍：{} ",dto);
                 }
-            }else{
-                throw new Exception("----获取Redisson分布式锁失败!----");
+            }else {
+                //如果不满足上述的任意一个if条件，则抛出异常
+                throw new Exception("该书籍库存不足!");
             }
-        }catch (Exception e){
-            throw e;
-        }finally {
-            //TODO：不管发生何种情况，在处理完核心业务逻辑之后，需要释放该分布式锁
-            if (lock!=null){
-                lock.unlock();
+        }else{
+            throw new Exception("----获取Redisson分布式锁失败!----");
+        }
+    }catch (Exception e){
+        throw e;
+    }finally {
+        //TODO：不管发生何种情况，在处理完核心业务逻辑之后，需要释放该分布式锁
+        if (lock!=null){
+            lock.unlock();
 
-                //在某些严格的业务场景下，也可以调用强制释放分布式锁的方法
-                //lock.forceUnlock();
-            }
+            //在某些严格的业务场景下，也可以调用强制释放分布式锁的方法
+            //lock.forceUnlock();
         }
     }
+}
 
 ```

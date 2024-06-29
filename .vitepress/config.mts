@@ -8,6 +8,7 @@ export default defineConfig({
   themeConfig: {
     // 页面目录
     outlineTitle:'目录',
+    outline:[2,6],
     // 头部导航栏
     nav: [
       { text: '数据库', link: '/数据库/index' },
@@ -17,14 +18,15 @@ export default defineConfig({
       { text: '环境搭建', link: '/环境搭建/index' },
       { text: '踩坑记录', link: '/踩坑记录/index' },
     ],
-    // 搜索
-    search: {
-      provider: 'local'
-    },
     // 侧边栏
     sidebar:sidebarData,
   },
   markdown: {
-    lineNumbers: true
-  }
+    // markdown显示代码块序号
+    lineNumbers: true,
+    image: {
+      // 默认禁用图片懒加载
+      lazyLoading: false
+    },
+  },
 })
