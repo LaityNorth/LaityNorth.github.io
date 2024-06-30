@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as s}from"./chunks/framework.DFHaK-wS.js";const m=JSON.parse('{"title":"Redis","description":"","frontmatter":{"title":"Redis"},"headers":[],"relativePath":"Redis/index.md","filePath":"Redis/index.md"}'),a={name:"Redis/index.md"};function i(d,n,r,o,c,p){return s(),t("div")}const f=e(a,[["render",i]]);export{m as __pageData,f as default};

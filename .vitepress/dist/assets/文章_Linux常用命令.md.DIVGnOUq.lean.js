@@ -1,0 +1,1 @@
+import{_ as s,c as i,o as a,a1 as n}from"./chunks/framework.DFHaK-wS.js";const C=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"文章/Linux常用命令.md","filePath":"文章/Linux常用命令.md"}'),l={name:"文章/Linux常用命令.md"},h=n("",50),p=[h];function k(e,t,r,F,d,g){return a(),i("div",null,p)}const c=s(l,[["render",k]]);export{C as __pageData,c as default};

@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "dependencies": {
+    "vitepress-plugin-codeblocks-fold": "^1.2.28",
+    "vitepress-plugin-image-viewer": "^1.1.4"
+  },
+  "devDependencies": {
+    "sass": "^1.77.6",
+    "vitepress": "^1.2.3"
+  }
+}
