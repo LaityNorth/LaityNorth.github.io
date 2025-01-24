@@ -4,7 +4,7 @@ type: docker
 name: static-blog
 
 steps:
-  - name: loading cache # 加载缓存
+  - name: loading cache
     pull: if-not-exists # 如果镜像不存在则拉取,免去每次都要重新下载
     image: drillster/drone-volume-cache
     volumes:
