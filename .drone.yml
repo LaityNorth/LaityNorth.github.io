@@ -1,0 +1,81 @@
+# 项目的.drone.yml 文件
+kind: pipeline
+type: docker
+name: erp-web
+
+steps:
+  # 构建缓存
+  - name: loading cache # 加载缓存
+    pull: if-not-exists # 如果镜像不存在则拉取,免去每次都要重新下载
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      restore: true
+      mount:
+        - ./node_modules
+
+  # npm 构建
+  - name: npm-build
+    pull: if-not-exists
+    image: node:20.15.1
+    commands:
+      - pwd
+      - ls -alt
+      - npm config set registry https://registry.npmmirror.com
+      - npm i -g pnpm
+      - pnpm store prune
+      - pnpm install --verbose
+      - npm run build
+
+  # 构建镜像并推送到镜像仓库
+  - name: build-docker-image
+    pull: if-not-exists
+    image: plugins/docker
+    settings:
+    repo: 117.72.16.98:1001/library/blog
+    tags:
+      - latest
+    registry: 117.72.16.98:1001
+    username:
+      from_secret: harbor_user
+    password:
+      from_secret: harbor_password
+    debug: true
+    insecure: true
+
+  # 远程到主机并运行docker compose
+  - name: deploy-run
+    pull: if-not-exists
+    image: appleboy/drone-ssh
+    settings:
+      host: 
+        from_secret: host_ip
+      port: 
+        from_secret: host_port
+      username: 
+        from_secret: host_user
+      password:
+        from_secret: host_password
+      # 使用docker compose拉去对应的镜像，并运行
+      script:
+        - docker run -p 80:80 117.72.16.98:1001/library/blog:latest
+
+  # 构建缓存
+  - name: rebuild-cache
+    pull: if-not-exists
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - ./node_modules
+
+# 挂载卷
+volumes:
+  - name: cache
+    host:
+      path: /tmp/drone-cache
