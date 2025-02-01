@@ -2,7 +2,7 @@ import {
   nextTick,
   onMounted,
   watch
-} from "./chunk-XPVHNUZ4.js";
+} from "./chunk-VJWGEPT5.js";
 
 // node_modules/viewerjs/dist/viewer.esm.js
 function ownKeys(e, r) {
