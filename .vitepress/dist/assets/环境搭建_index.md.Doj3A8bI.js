@@ -1,1 +1,0 @@
-import{_ as e,c as t,o as a}from"./chunks/framework.DFHaK-wS.js";const m=JSON.parse('{"title":"环境搭建","description":"","frontmatter":{"title":"环境搭建"},"headers":[],"relativePath":"环境搭建/index.md","filePath":"环境搭建/index.md"}'),n={name:"环境搭建/index.md"};function r(o,s,c,i,d,p){return a(),t("div")}const f=e(n,[["render",r]]);export{m as __pageData,f as default};
