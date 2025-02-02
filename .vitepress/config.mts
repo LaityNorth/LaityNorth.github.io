@@ -12,6 +12,7 @@ export default defineConfig({
     // 头部导航栏
     nav: [
       { text: '文章', link: '/文章/index' },
+      { text: '设计模式', link: '/设计模式/index' },
       { text: '数据库', link: '/数据库/index' },
       { text: 'Redis', link: '/Redis/index' },
       { text: '分布式锁', link: '/分布式锁/index' },

@@ -8,6 +8,10 @@ export const navBarData = [
         link: "/文章/index.md"
     },
     {
+        text: "设计模式",
+        link: "/设计模式/index.md"
+    },
+    {
         text: "数据库",
         link: "/数据库/index.md"
     },
