@@ -10,6 +10,7 @@ export default [
             { text: '规则树', link: `${basePath}规则树`},
             { text: '解决有🪜git访问github慢的问题', link: `${basePath}git解决访问github慢的问题`},
             { text: 'git相关命令', link: `${basePath}git`},
+            { text: 'Ubuntu中配置静态ip', link: `${basePath}Ubuntu中配置静态ip`},
         ]
     }
 ]
