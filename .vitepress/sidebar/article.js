@@ -12,6 +12,7 @@ export default [
             { text: 'git相关命令', link: `${basePath}git`},
             { text: 'Ubuntu中配置静态ip', link: `${basePath}Ubuntu中配置静态ip`},
             { text: 'Macos打造专属于自己的终端', link: `${basePath}macos打造属于自己的zsh客户端`},
+            { text: 'Macos RAGFLOW 本地安装', link: `${basePath}本地安装RagFlow`},
         ]
     }
 ]
